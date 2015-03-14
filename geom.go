@@ -173,7 +173,7 @@ func NewRect(p Point, lengths []float64) (r *Rect, err error) {
 	}
 	r.q = make([]float64, len(p))
 	for i := range p {
-		if lengths[i] <= 0 {
+		if lengths[i] < 0 {
 			err = DistError(lengths[i])
 			return
 		}
