@@ -358,3 +358,28 @@ func TestMinMaxdist(t *testing.T) {
 		t.Errorf("Expected %v.minMaxDist(%v) == %v, got %v", p, r, expected, d)
 	}
 }
+
+func TestZeroLengthBBox(t *testing.T) {
+	r, err := NewRect(Point{1, 1}, []float64{1, 0})
+	if err != nil {
+		t.Error("Error for zero length")
+	}
+	r.size()
+	if !r.containsPoint(Point{2, 1}) {
+		t.Error("Point should be in rect")
+	}
+	if r.containsPoint(Point{3, 1}) {
+		t.Error("Point is not in rect")
+	}
+
+	rsub, err := NewRect(Point{1.5, 1}, []float64{0.5, 0})
+	if err != nil {
+		t.Error("Error for zero length")
+	}
+	if !r.containsRect(rsub) {
+		t.Error("r has to contain rsub")
+	}
+	if rsub.containsRect(r) {
+		t.Error("rsub does not completely contain r")
+	}
+}
